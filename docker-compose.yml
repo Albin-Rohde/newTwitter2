@@ -1,0 +1,40 @@
+version: "3.8"
+services: 
+    einar:
+        build: 
+            context: ./einar
+            dockerfile: ./Dockerfile
+        ports: 
+            - "421:6969"
+        environment: 
+            DATABASE_URL: postgres://stalin:gulag@iluminati:5432/stalingrad
+        depends_on: 
+            - iluminati
+        volumes: 
+            - ./einar:/sooma
+        links:
+            - iluminati
+
+    tratten:
+        build: 
+            context: ./tratten
+            dockerfile: ./Dockerfile
+        ports: 
+            - "666:3000"
+        depends_on: 
+            - einar
+        volumes: 
+            - ./tratten:/desi
+        links:
+            - einar
+    
+    iluminati:
+        image: postgres
+        ports:
+            - "69:5432"
+        volumes: 
+            - ./pg_data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: stalin
+            POSTGRES_PASSWORD: gulag
+            POSTGRES_DB: stalingrad
